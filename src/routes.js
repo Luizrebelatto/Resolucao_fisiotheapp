@@ -1,14 +1,41 @@
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
+import React from 'react'
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import Main from './pages/Main';
-import Exercise from './pages/Exercise';
+import MainScreen from './pages/Main';
+import ExerciseScreen from './pages/Exercise';
 
-const Routes = createAppContainer(
-  createStackNavigator({
-    Main,
-    Exercise,
-  }),
-);
+const Tab =  createBottomTabNavigator();
 
-export default Routes;
+
+const icons = {
+  Main:{
+    lib:Icon,
+    name:"folder"
+  },
+  Chat:{
+    lib:Icon,
+    name:"chat-processing"
+  },
+  Exercise:{
+    lib:Icon,
+    name:"book"
+  }
+}
+
+export default function Routes(){
+  return(
+      <Tab.Navigator
+        screenOptions={({route})=>({
+          tabBarIcon: ({color,size})=>{
+            const {lib: Icon, name} = icons[route.name];
+            return <Icon name={name} size={size} color={color}/>
+          },
+        })}
+      >
+        <Tab.Screen name="Main" component={MainScreen} options={{title:''}}/>
+        <Tab.Screen name="Chat" component={MainScreen} options={{title:''}}/>
+        <Tab.Screen name="Exercise" component={ExerciseScreen} options={{title:''}}/>
+      </Tab.Navigator>
+  )
+}
